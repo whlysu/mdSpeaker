@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mdSpeaker — Markdown 朗读阅读器</title>
+    <script>
+      (function () {
+        var t = localStorage.getItem('mdspeaker-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = 'dark';
+      })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-BKC3FGKY.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-xEulSbnC.css">
+  </head>
+  <body>
+    <header class="toolbar">
+      <div class="toolbar-left">
+        <h1 class="logo">mdSpeaker</h1>
+        <label class="btn btn-primary" for="file-input">打开文档</label>
+        <input id="file-input" type="file" accept=".md,.markdown,text/markdown" multiple hidden />
+      </div>
+      <div class="toolbar-center">
+        <button id="btn-play" class="btn" disabled title="播放">▶ 播放</button>
+        <button id="btn-pause" class="btn" disabled title="暂停">⏸ 暂停</button>
+        <button id="btn-stop" class="btn" disabled title="停止">⏹ 停止</button>
+        <button id="btn-prev" class="btn" disabled title="上一段">⏮ 上一段</button>
+        <button id="btn-next" class="btn" disabled title="下一段">⏭ 下一段</button>
+      </div>
+      <div class="toolbar-right">
+        <label class="control">
+          语速
+          <select id="rate-select">
+            <option value="-20%">慢</option>
+            <option value="+0%" selected>正常</option>
+            <option value="+15%">快</option>
+          </select>
+        </label>
+        <label class="control">
+          语音
+          <select id="voice-select" disabled>
+            <option value="zh-CN-XiaoxiaoNeural">晓晓 (zh-CN)</option>
+          </select>
+        </label>
+        <button id="btn-theme" class="btn btn-icon" type="button" title="切换主题">🌙</button>
+        <span id="engine-badge" class="engine-badge">检测中…</span>
+      </div>
+    </header>
+
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">文档列表</span>
+          <div class="sidebar-header-actions">
+            <span id="doc-count" class="doc-count">0</span>
+            <button id="btn-clear-docs" class="btn btn-sm" type="button" title="清空文档列表" disabled>
+              清空
+            </button>
+          </div>
+        </div>
+        <ul id="file-list" class="file-list" aria-label="已打开的文档"></ul>
+        <p id="file-list-empty" class="file-list-empty">暂无文档，请打开或拖入 .md 文件</p>
+      </aside>
+
+      <main id="drop-zone" class="reader">
+        <div id="empty-state" class="empty-state">
+          <p class="empty-title">拖入或打开 Markdown 文件开始阅读</p>
+          <p class="empty-hint">支持多选 / 多次打开 · 左侧切换文档 · 视口右侧进度条可跳转可见段落</p>
+        </div>
+        <article id="content" class="content" hidden></article>
+        <aside id="seek-rail" class="seek-rail" aria-label="可视段落朗读进度" hidden></aside>
+      </main>
+    </div>
+
+    <footer class="status-bar">
+      <span id="progress-text">就绪</span>
+    </footer>
+
+  </body>
+</html>
